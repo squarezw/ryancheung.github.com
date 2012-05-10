@@ -5,8 +5,6 @@ description: "A page to yank my story"
 ---
 {% include JB/setup %}
 
-# About
-
 One of the most passionate Linux and Rails guys.
 
 ## Profile
