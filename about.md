@@ -10,7 +10,7 @@ One of the most passionate Linux and Rails guys.
 ## Profile
 
 - Name: Ryan Cheung
-- BirthDay: 1988/08
+- Birthday: 1988/08
 - Location: Shanghai, China
 - Occupation: Rails Developer
 - Employment: Shanghai Boohee Information Technology Co. Ltd.
