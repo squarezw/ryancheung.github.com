@@ -48,14 +48,14 @@ http://moya.boohee.com/api/v2/accounts/register
 
 ### Parameters
 
-*   device_id(Required)
-    unique id of a ios device
-*   name(Required)
-    nick name of user
-*   gender(Required)
-    1 stands for female
-    2 stands for male
-    Example Values: 1
+*    device_id(Required)
+     unique id of a ios device
+*    name(Required)
+     nick name of user
+*    gender(Required)
+     1 stands for female
+     2 stands for male
+     Example Values: 1
 *   birthday(Required)
     birthday of user
     Example Values: 1988-08-22
