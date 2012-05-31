@@ -48,21 +48,17 @@ http://moya.boohee.com/api/v2/accounts/register
 
 ### Parameters
 
-*  device_id(Required):
-   unique id of a ios device
-
-*  name(Required):
-   nick name of user
-
-*  gender(Required):
-   1 stands for female
-   2 stands for male
-   Example Values: 1
-
+*   device_id(Required):
+    unique id of a ios device
+*   name(Required):
+    nick name of user
+*   gender(Required):
+    1 stands for female
+    2 stands for male
+    Example Values: 1
 *   birthday(Required):
     birthday of user
     Example Values: 1988-08-22
-
 *   height(Required):
     height of user, units: cm
     Example Values: 178
@@ -74,7 +70,7 @@ http://moya.boohee.com/api/v2/accounts/register
 ### Example Request
 
 POST http://moya.boohee.com/api/v2/accounts/register
-***
+
 POST Data
 
     device_id=f67fdon76xcv90f7dsf8788fd8
@@ -83,7 +79,8 @@ POST Data
     birthday=1984-12-06
     height=178
     weight=68.5
-***
+
+Response
 
     {
       "user_id": 1,
@@ -94,4 +91,3 @@ POST Data
 ### Error Codes
 
 * 1 此设备已注册
-
