@@ -1,99 +1,42 @@
-# PFA Server Api V3 Introduction
+# Jekyll-Bootstrap
 
-This API doc is based the version *v1*. As the app iterate continuously,
-the old API design can't satisfy the increasingly requirements. So it
-must need some more refactor and refinement.
+The quickest way to start and publish your Jekyll powered blog. 100% compatible with GitHub pages
 
-This time the API is designed with full RESTfull style. And the development
-is driven with BDD methodology. But the old version API will still serve for old
-version PFA app.
+## Usage
 
-# URL & Versioning
+For all usage and documentation please see: <http://jekyllbootstrap.com>
 
-There're two strategies for API versioning:
-  1. Including a version in URLs, e.g. /api/v2/accounts/login
-  2. Adding a version in HTTP Accept Headers for versioning
+## Version
 
-In this version only the first strategy is applied for API versioning. So
-all of the API endpoint will be prefix with `/api/v2/`, for example:
+0.2.13 - stable and versioned using [semantic versioning](http://semver.org/).
 
-    /api/v2/accounts/register
+## Contributing 
 
-## HTTP Status Codes
+This repository tracks 2 projects:
 
-The pfa server API attempts to return appropriate
-[HTTP status code](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-for every request.
+- **Jekyll-Bootstrap Framework.**  
+  The framework for which users should clone and build their blog on top of is available in the master branch.
+  
+  To contribute to the framework please make sure to checkout your branch based on `jb-development`!!
+  This is very important as it allows me to accept your pull request without having to publish a public version release.
+  
+  Small, atomic Features, bugs, etc.   
+  Use the `jb-development` branch but note it will likely change fast as pull requests are accepted.   
+  Please rebase as often as possible when working.   
+  Work on small, atomic features/bugs to avoid upstream commits affecting/breaking your development work.
+  
+  For Big Features or major API extensions/edits:   
+  This is the one case where I'll accept pull-requests based off the master branch.
+  This allows you to work in isolation but it means I'll have to manually merge your work into the next public release.
+  Translation : it might take a bit longer so please be patient! (but sincerely thank you).
+ 
+- **Jekyll-Bootstrap Documentation Website.**    
+  The documentation website at <http://jekyllbootstrap.com> is maintained in the gh-pages branch.
+  Please fork and contribute documentation additions to this branch only.
 
-## Error Messages
+The master and gh-pages branch do not share the same ancestry. Please treat them as completely separate git repositories!
 
-When the API returns error messages. it does so in json format like this:
 
-    { "errors": [{ "message": "Invalid token", code: 4 }] }
+## License
 
-# API Definitions
-
-## POST accounts/register
-
-User account registration. For the simplicity of UE, user will be registered
-with identity of his device but not username and password.
-
-  * Requires Authentication: No
-  * Response Formats: json
-  * HTTP Methods: POST
-
-### Resource URL
-
-http://moya.boohee.com/api/v2/accounts/register
-
-### Parameters
-
-*   device_id(Required):
-
-    unique id of a ios device
-
-*   name(Required):
-
-    nick name of user
-
-*   gender(Required):
-
-    1 stands for female
-    2 stands for male
-    Example Values: 1
-
-*   birthday(Required):
-
-    birthday of user
-    Example Values: 1988-08-22
-
-*   height(Required):
-
-    height of user, units: cm
-    Example Values: 178
-
-*   weight(Required):
-
-    weight of user, it's a number with 1 deciaml point
-    Example Values: 68.5
-
-### Example Request
-
-POST http://moya.boohee.com/api/v2/accounts/register
-
-POST Data
-
-    device_id=f67fdon76xcv90f7dsf8788fd8
-    name=brent
-    gender=2
-    birthday=1984-12-06
-    height=178
-    weight=68.5
-
-Response
-
-    {
-      "user_id": 1,
-      "assessment": "",
-      "token": "7vfd9f6d"
-    }
+[Creative Commons](http://creativecommons.org/licenses/by-nc-sa/3.0/)
