@@ -1,7 +1,7 @@
 ---
-layout: page
-title: Hello World!
-tagline: Supporting tagline
+layout: default
+title: Home
+tagline: Life is for sharing.
 ---
 {% include JB/setup %}
 
