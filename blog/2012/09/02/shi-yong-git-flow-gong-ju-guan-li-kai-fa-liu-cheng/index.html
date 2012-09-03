@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ryan's Blog</title>
+  <title>使用 git flow 工具管理开发流程 - Ryan's Blog</title>
   <meta name="author" content="Ryan Cheung">
 
   
@@ -20,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ryancheung.github.com/">
+  <link rel="canonical" href="http://ryancheung.github.com/blog/2012/09/02/shi-yong-git-flow-gong-ju-guan-li-kai-fa-liu-cheng/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,15 +76,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/02/shi-yong-git-flow-gong-ju-guan-li-kai-fa-liu-cheng/">使用 Git Flow 工具管理开发流程</a></h1>
+      <h1 class="entry-title">使用 Git Flow 工具管理开发流程</h1>
     
     
       <p class="meta">
@@ -107,7 +104,7 @@
   </header>
 
 
-  <div class="entry-content"><p>我们都知道, 在 git 的分支功能相对 svn 确实方便许多，而且也非常推荐使用分支来做开发.
+<div class="entry-content"><p>我们都知道, 在 git 的分支功能相对 svn 确实方便许多，而且也非常推荐使用分支来做开发.
 我的做法是每个项目都有2个分支, master 和 dev. master 分支是主分支, 保证程序有一个
 稳定版本, dev 则是开发用的分支, 几乎所有的功能开发, bug 修复都在这个分支上, 完成后
 再合并回 master.</p>
@@ -195,22 +192,16 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
 
 <p>最后 git flow in github: [https://github.com/nvie/gitflow(https://github.com/nvie/gitflow)]</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/01/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ryan Cheung</span></span>
+
+      
 
 
 
@@ -222,29 +213,40 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
   
 
 
-<time datetime="2012-08-01T23:52:00+08:00" pubdate data-updated="true">Aug 1<span>st</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-09-02T23:27:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flow/'>flow</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/git-/'>git,</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h2>Hello world</h2>
-
-<p>puts &#8220;Hello, world!&#8221;</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ryancheung.github.com/blog/2012/09/02/shi-yong-git-flow-gong-ju-guan-li-kai-fa-liu-cheng/" data-via="" data-counturl="http://ryancheung.github.com/blog/2012/09/02/shi-yong-git-flow-gong-ju-guan-li-kai-fa-liu-cheng/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/01/hello-world/" title="Previous Post: hello world">&laquo; hello world</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -265,7 +267,7 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/ryancheung">@ryancheung</a> on GitHub
@@ -307,6 +309,7 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
 
   
 </aside>
+
 
     </div>
   </div>
