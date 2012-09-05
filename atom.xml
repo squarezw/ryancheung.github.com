@@ -4,7 +4,7 @@
   <title><![CDATA[Ryan's Blog]]></title>
   <link href="http://ryancheung.github.com/atom.xml" rel="self"/>
   <link href="http://ryancheung.github.com/"/>
-  <updated>2012-09-03T08:44:39+08:00</updated>
+  <updated>2012-09-05T09:21:21+08:00</updated>
   <id>http://ryancheung.github.com/</id>
   <author>
     <name><![CDATA[Ryan Cheung]]></name>
@@ -104,7 +104,7 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
 <p>分支在 merge 回 develop 或 master 的时候都会添加 &#8211;no-ff  参数, 这样做有个好处就是,
 每一次的 merge 就代表一个功能完成, 可以清晰地看到这个功能开发下的每个提交历史.</p>
 
-<p>最后 git flow in github: [https://github.com/nvie/gitflow(https://github.com/nvie/gitflow)]</p>
+<p>最后 git flow in github: <a href="https://github.com/nvie/gitflow">https://github.com/nvie/gitflow</a></p>
 ]]></content>
   </entry>
   
