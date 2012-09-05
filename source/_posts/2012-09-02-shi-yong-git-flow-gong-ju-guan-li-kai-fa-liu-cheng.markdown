@@ -3,7 +3,7 @@ layout: post
 title: "使用 git flow 工具管理开发流程"
 date: 2012-09-02 23:27
 comments: true
-categories: git, git flow
+categories: git git-flow
 ---
 
 我们都知道, 在 git 的分支功能相对 svn 确实方便许多，而且也非常推荐使用分支来做开发.
@@ -80,4 +80,4 @@ track 一个远程分支:
 分支在 merge 回 develop 或 master 的时候都会添加 --no-ff  参数, 这样做有个好处就是,
 每一次的 merge 就代表一个功能完成, 可以清晰地看到这个功能开发下的每个提交历史.
 
-最后 git flow in github: [https://github.com/nvie/gitflow(https://github.com/nvie/gitflow)]
+最后 git flow in github: [https://github.com/nvie/gitflow](https://github.com/nvie/gitflow)
