@@ -9,9 +9,9 @@
   <meta name="author" content="Ryan Cheung">
 
   
-  <meta name="description" content="通常在 Rails App 中我们提倡 fat model skinny controller，但当业务的复杂度不断增加的时候，
-也可能会出现 fat controller 或者 fat view 的情况。例如 NICE-Program 减重方案智能生成项目中，
-展示方案的 view &hellip;">
+  <meta name="description" content="Rails Engine 算是 Rails 框架中的一项伟大发明，由于 Rails Application 本身也是
+个 Engine, 因此它让你的 App 挂载其他 Engine, 甚至在 Engine 中挂载 Engine。它
+的主要目标是可以模块化大型业务系统，例如做 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,195 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/02/things-you-should-known-about-rails-engine/">Things You Should Known About Rails Engine</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-02T21:28:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rails Engine 算是 Rails 框架中的一项伟大发明，由于 Rails Application 本身也是
+个 Engine, 因此它让你的 App 挂载其他 Engine, 甚至在 Engine 中挂载 Engine。它
+的主要目标是可以模块化大型业务系统，例如做 Authentication 的 <a href="https://github.com/plataformatec/devise">Devise</a>,
+做论坛的 <a href="https://github.com/radar/forem">Forem</a>, 做电子商务的 <a href="https://github.com/spree/spree">Spree</a> 等等。
+Rails Engine 可以帮助将一个大型系统划分成多个小的独立的模块或业务，方便我们开发和后期维护。</p>
+
+<p>因此，我们的 NICE 智能方案这边就考虑将方案的生成考虑做成了一个独立 Engine。
+Rails Engine 很强大但其实也不算成熟，至少相对 Rails 来说算是。虽然大部分功能特性
+跟 Rails Application 一样，但仍然会有些细节上的不同，而且这些不同就导致不能像在
+ Rails 中方便的去使用一些功能。下面就从几个方面来谈谈我在使用 Engine 过程中的一些经验。</p>
+
+<h2>gem</h2>
+
+<p>Rails Engine 中引用的 gems 不会被自动加载，你需要在 engine 使用它们之前手动把它们加载进来。
+Rails 中有些 gem 之所以不需要 require 是因为这些 gem 里有 Railtie，Railtie 是 Rails 初始化
+过程中很关键的部分，初始化过程找到所有包括 gems 中的 Railtie 并将其加载。但 Railtie 在 engine 中
+就不起作用了，因为 engine 已经是一个 gem，在一个 gem 中使用另外个 gem 必须得先 require 它。
+例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;program-service/engine&quot;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;enumerize&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;draper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;will_paginate&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;simple_filter&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">ProgramService</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Rspec</h2>
+
+<p>Engine 中使用 Rspec 可没那么直接，需要做一些手动配置。在生成 Engine 的时候得额外使用2个参数: -T &#8211;dummy-path=spec/dummy</p>
+
+<ul>
+<li><code>-T</code> 跳过 test/unit</li>
+<li><code>--dummy-path</code> 设置 spec 和 dummy app 目录，默认是 test/dummy</li>
+</ul>
+
+
+<p>在生成的 spec_helper.rb 中 require 一些测用的的 gem，如：</p>
+
+<pre><code>require 'capybara/rspec'
+require 'database_cleaner'
+</code></pre>
+
+<p>再把</p>
+
+<pre><code>Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+</code></pre>
+
+<p>改成</p>
+
+<pre><code>ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
+Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
+</code></pre>
+
+<p>在 Engine 中配置 rspec 的 generators</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ProgramService</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">g</span><span class="o">.</span><span class="n">test_framework</span> <span class="ss">:rspec</span><span class="p">,</span> <span class="ss">:view_specs</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样配置完后在 rails g 命令后才会自动生成对于的 spec 文件。</p>
+
+<h2>FactoryGirl</h2>
+
+<p>FactoryGirl 在 engine 中也是不能直接使用的，首先你需要在 spec_helper.rb 中添加</p>
+
+<pre><code>require 'factory_girl'
+</code></pre>
+
+<p>然后再添加</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># FactoryGirl extra configuration in engine</span>
+</span><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">definition_file_paths</span> <span class="o">&lt;&lt;</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;factories&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">find_definitions</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>来设置 factory 文件查找路径，在 engine 中他的默认的查找路径是在 spec/dummy/spec/factories 中，
+所以必须的手动添加 spec/factories 路径进去。</p>
+
+<h2>autoload_paths</h2>
+
+<p>有时候你会需要添加额外的加载路径，如 <code>app/services</code> 目录，你可以在 Engine 中配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ProgramService</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../../../app/services&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../../../app/services/**/&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>assets &amp; precompiling</h2>
+
+<p>有时候你需要加入一些只有 Engine 中会用到的一些资源文件，如 admin 后台管理中用的 admin.js 和 admin.css，
+你可以将他们加入到 precompile 中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ProgramService</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+</span><span class='line'>    <span class="n">initializer</span> <span class="s2">&quot;program-service.assets.precompile&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">precompile</span> <span class="o">+=</span> <span class="sx">%w(admin.css admin.js)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上提到的都是 engine 和 rails 差异的地方，解决完所有问题后基本还是可以像 rails 中一样
+正常工作的。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -813,6 +1002,10 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/02/things-you-should-known-about-rails-engine/">Things you should known about Rails Engine</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/11/use-presenters-in-rails/">Use Presenters in Rails</a>
       </li>
     
@@ -826,10 +1019,6 @@ git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feat
     
       <li class="post">
         <a href="/blog/2012/09/16/services/">services</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/02/shi-yong-git-flow-gong-ju-guan-li-kai-fa-liu-cheng/">使用 git flow 工具管理开发流程</a>
       </li>
     
   </ul>

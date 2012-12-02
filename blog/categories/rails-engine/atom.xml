@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rails | Ryan's Blog]]></title>
-  <link href="http://ryancheung.github.com/blog/categories/rails/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Rails-Engine | Ryan's Blog]]></title>
+  <link href="http://ryancheung.github.com/blog/categories/rails-engine/atom.xml" rel="self"/>
   <link href="http://ryancheung.github.com/"/>
   <updated>2012-12-02T23:07:45+08:00</updated>
   <id>http://ryancheung.github.com/</id>
